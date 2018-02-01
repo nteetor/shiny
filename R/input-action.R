@@ -66,6 +66,42 @@ actionLink <- function(inputId, label, icon = NULL, ...) {
   )
 }
 
+#' Action button group
+#'
+#' A group of action buttons
+#'
+#' @export
+#' @examples
+#'
+actionButtonGroup <- function(inputId, label, choices = NULL,
+                              choiceNames = NULL, choiceValues = NULL) {
+  args <- normalizeChoicesArgs(choices, choiceNames, choiceValues)
+
+  value <- restoreInput(id = inputId, default = NULL)
+
+  buttons <- Map(
+    name = args$choiceNames,
+    value = args$choiceValues,
+    function(name, value) {
+      tags$button(
+        type = "button",
+        class = "btn btn-default",
+        `data-val` = value,
+        name
+      )
+    }
+  )
+
+  divClass <- "btn-group form-group action-button-group"
+
+  tags$div(
+    class = divClass,
+    role = "group",
+    controlLabel(inputId, label),
+    buttons
+  )
+}
+
 
 # Check that the icon parameter is valid:
 # 1) Check  if the user wants to actually add an icon:
